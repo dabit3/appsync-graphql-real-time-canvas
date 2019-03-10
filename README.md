@@ -14,7 +14,7 @@ type Canvas @model {
 
 ## To deploy this application
 
-> To deploy this application, you must have the Amplify CLI installed & configured. To learn how to do this, check out the documentation [here](https://aws-amplify.github.io/).
+> To deploy this application, you must have the latest version of the Amplify CLI installed & configured. To learn how to do this, check out the documentation [here](https://aws-amplify.github.io/).
 
 1. Clone the repo & change into the directory
 
