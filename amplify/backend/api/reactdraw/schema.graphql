@@ -1,0 +1,5 @@
+type Canvas @model {
+  id: ID!
+  clientId: String!
+  data: String!
+}
