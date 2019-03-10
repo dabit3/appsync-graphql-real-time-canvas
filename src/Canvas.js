@@ -14,16 +14,35 @@ class Demo extends Component {
     canvasWidth: 400,
     brushRadius: 8,
     lazyRadius: 8
-  };
+  }
   lineLength = 0
   id = '123'
   clientId = uuid()
   canvasInfo = 'tempcanvas'
   componentDidMount() {
+    const canvas = {
+      id: this.id,
+      clientId: this.clientId,
+      data: {
+        ...this.state,
+        lines: []
+      }
+    }
+    // Create the canvas. If canvas is already created, retrieve the data & draw previous canvas
+    API.graphql(graphqlOperation(createCanvas, { input: canvas }))
+      .then(d => console.log('canvas created :', d))
+      .catch(err => {
+        if (err.errors[0].data.id === this.id) {
+          const d = err.errors[0].data.data
+          this.canvas.loadSaveData(d)
+        }
+      })
     this.setState({
       brushColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
     })
-    window.addEventListener('mouseup', () => {
+    window.addEventListener('mouseup', (e) => {
+      // If we are clicking on a button, do not update anything
+      if (e.target.name === 'clearbutton') return 
       this.setState({
         brushColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
       })
@@ -37,7 +56,8 @@ class Demo extends Component {
         clientId: this.clientId,
         data
       }
-       API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
+      // Save updated canvas in the database
+      API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
         .then(c => {
           console.log('canvas updated!')
         })
@@ -49,6 +69,7 @@ class Demo extends Component {
           const data = JSON.parse(d.value.data.onUpdateCanvas.data)
           const length = data.lines.length
           if (length === 0) {
+            // If there is no canvas data, clear the canvas
             const data = this.canvas.getSaveData()
             const parsedData = JSON.parse(data)
             const newData = {
@@ -56,12 +77,11 @@ class Demo extends Component {
               lines: []
             }
             const newCanvas = JSON.stringify(newData)
-            console.log('newCanvas:', newCanvas)
             this.canvas.loadSaveData(newCanvas)
+            return
           }
           if (this.lineLength === length || length === Number(0)) return
-          console.log('lineLength: ', this.lineLength)
-          console.log('length: ', length)
+          // Draw new lines to canvas
           const last = data.lines[length -1]
           this.canvas.simulateDrawingLines({ lines: [last] })
         }
@@ -83,14 +103,14 @@ class Demo extends Component {
     }
     API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
         .then(c => {
-          console.log('canvas updated!')
+          console.log('canvas cleared!')
         })
         .catch(err => console.log('error creating: ', err))
   }
   render() {
     return (
       <div>
-        <button onClick={this.clear}>Clear</button>
+        <button name='clearbutton' onClick={this.clear}>Clear</button>
         <CanvasDraw
           {...this.state}
           ref={canvas => this.canvas = canvas}
