@@ -7,9 +7,24 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { onUpdateCanvas } from './graphql/subscriptions'
 import { updateCanvas, createCanvas } from './graphql/mutations'
 
+const colors = [
+  '#D50000',
+  '#C51162',
+  '#AA00FF',
+  '#2962FF',
+  '#00BFA5',
+  '#00C853',
+  '#FFD600',
+  '#FF6D00'
+]
+
+function rand() {
+  return colors[~~(colors.length * Math.random())];
+}
+
 class Demo extends Component {
   state = {
-    brushColor: "#000",
+    brushColor: rand(),
     canvasHeight: 400,
     canvasWidth: 400,
     brushRadius: 8,
@@ -37,14 +52,11 @@ class Demo extends Component {
           this.canvas.loadSaveData(d)
         }
       })
-    this.setState({
-      brushColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
-    })
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return 
       this.setState({
-        brushColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
+        brushColor: rand()
       })
       const data = this.canvas.getSaveData()
       const p = JSON.parse(data)
