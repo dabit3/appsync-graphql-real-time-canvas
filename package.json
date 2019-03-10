@@ -5,7 +5,6 @@
   "dependencies": {
     "aws-amplify": "^1.1.22",
     "react": "^16.8.3",
-    "react-canvas-draw": "dabit3/react-canvas-draw#master",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
     "uuid": "^3.3.2"
