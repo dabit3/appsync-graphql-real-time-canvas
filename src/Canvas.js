@@ -9,13 +9,13 @@ import { updateCanvas, createCanvas } from './graphql/mutations'
 
 const colors = [
   '#D50000',
-  '#C51162',
   '#AA00FF',
   '#2962FF',
-  '#00BFA5',
+  '#18FFFF',
   '#00C853',
   '#FFD600',
-  '#FF6D00'
+  '#FF6D00',
+  '#000000'
 ]
 
 function rand() {
@@ -25,9 +25,9 @@ function rand() {
 class Demo extends Component {
   state = {
     brushColor: rand(),
-    canvasHeight: 300,
-    canvasWidth: 500,
-    brushRadius: 8,
+    canvasHeight: 350,
+    canvasWidth: 380,
+    brushRadius: 4,
     lazyRadius: 8
   }
   lineLength = 0

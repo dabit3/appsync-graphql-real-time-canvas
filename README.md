@@ -1,6 +1,6 @@
 # Real-time collaborative drawing canvas with GraphQL & AWS AppSync
 
-![](gqlgif.gif)
+![](graphqlgif1)
 
 Schema:
 
