@@ -9,6 +9,7 @@
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5",
+    "resize-observer-polyfill": "^1.5.1",
     "uuid": "^3.3.2"
   },
   "scripts": {
